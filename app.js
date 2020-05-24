@@ -19,7 +19,7 @@ mongoose.connection.on("error", err => {
 });
 
 // 
-const postRoutes = require("./routes/post");
+const taskRoutes = require("./routes/task");
 const authRoutes = require("./routes/auth");
 
 
@@ -30,7 +30,7 @@ app.use(cookieParser());
  app.use(expressValidator());
 app.use(cors());
 
-app.use("/", postRoutes);
+app.use("/", taskRoutes);
 app.use("/", authRoutes);
 
 
