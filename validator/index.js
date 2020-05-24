@@ -50,3 +50,18 @@ exports.createTaskValidator = (req, res, next) => {
    
     next();
 };
+
+
+exports.createTaskUpdateValidator = (req, res, next) => {
+    // title
+    req.check("title", "No title specified").notEmpty();
+    // check for errors
+    const errors = req.validationErrors();
+    // if error show the first one as they happen
+    if (errors) {
+        const firstError = errors.map(error => error.msg)[0];
+        return res.status(400).json({ error: firstError });
+    }
+
+    next();
+};

@@ -50,6 +50,20 @@ exports.createTask = async (req, res, next) => {
     }
 };
 
+exports.updateTask = async (req, res, next) => {
+    const task = await new Task(req.body);
+    const title = req.title;
+    try {
+        await task.findOneAndUpdate({ createdBy: {req.profile._id}, title: {title}}, {status : 'Completed'}, {
+            returnOriginal: false
+        });
+        res.status(200).json({ message: "Task Updated Successfully!" });
+    }
+    catch (err) {
+        res.status(500).send(err);
+    }
+};
+
 
 
 
