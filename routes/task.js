@@ -1,38 +1,36 @@
-const express = require("express");
+const express = require('express');
 
 const {
-    getTasks,
-    createTask,
-    updateTask,
-    getArchiveTasks,
-    userById
-} = require("../controllers/task");
-const { requireSignin } = require("../controllers/auth");
-const { createTaskValidator } = require("../validator");
-const { createTaskUpdateValidator } = require("../validator");
+  getTasks,
+  createTask,
+  updateTask,
+  getArchiveTasks,
+  userById,
+} = require('../controllers/task');
+const { requireSignin } = require('../controllers/auth');
+const { createTaskValidator } = require('../validator');
+const { createTaskUpdateValidator } = require('../validator');
 
 const router = express.Router();
 
-router.get("/api/tasks/:userId", getTasks);
+router.get('/api/tasks/:userId', getTasks);
 
 router.post(
-    "/api/task/new/:userId",
-    requireSignin,
-    createTask,
-    createTaskValidator
+  '/api/task/new/:userId',
+  requireSignin,
+  createTask,
+  createTaskValidator,
 );
 
-router.post(
-    "/api/task/update/:userId/:title",
-    requireSignin,
-    updateTask,
-    createTaskUpdateValidator
+router.put(
+  '/api/task/update/:taskId',
+  requireSignin,
+  updateTask,
+  createTaskUpdateValidator,
 );
 
+router.get('/api/archive/:userId', getArchiveTasks);
 
-router.get("/api/archive/:userId", getArchiveTasks);
-
-router.param("userId", userById);
-
+router.param('userId', userById);
 
 module.exports = router;
