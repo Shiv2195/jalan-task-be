@@ -32,7 +32,7 @@ router.post(
 router.post(
     "/api/task/read/:userId/:title",
     requireSignin,
-    readTask,
+    readTasks,
     createTaskUpdateValidator
 );
 

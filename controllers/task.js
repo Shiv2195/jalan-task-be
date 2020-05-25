@@ -64,18 +64,17 @@ exports.updateTask = async (req, res, next) => {
     }
 };
 
-exports.readTask = async (req, res, next) => {
-    const task = await new Task(req.body);
+exports.readTasks = (req, res) => {
     const title = req.title;
-    try {
-        await task.findOne({ createdBy: {req.profile._id}, title: {title}}, {
-            returnOriginal: false
+    const res = await Task.find({ createdBy: req.profile._id, title: {title}})
+        .exec((err, tasks) => {
+            if (err) {
+                return res.status(400).json({
+                    error: err,
+                });
+            }
+            res.json(tasks);
         });
-        res.status(200).json({ message: "Task Found !" });
-    }
-    catch (err) {
-        res.status(500).send(err);
-    }
 };
 
 
