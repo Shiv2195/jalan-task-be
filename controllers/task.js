@@ -50,6 +50,20 @@ exports.createTask = async (req, res, next) => {
     }
 };
 
+exports.updateTask = async (req, res, next) => {
+    const task = await new Task(req.body);
+    const title = req.title;
+    try {
+        await task.findOneAndUpdate({ createdBy: {req.profile._id}, title: {title}}, {status : 'Completed'}, {
+            returnOriginal: false
+        });
+        res.status(200).json({ message: "Task Updated Successfully!" });
+    }
+    catch (err) {
+        res.status(500).send(err);
+    }
+};
+
 exports.readTask = async (req, res, next) => {
     const task = await new Task(req.body);
     const title = req.title;
@@ -62,17 +76,6 @@ exports.readTask = async (req, res, next) => {
     catch (err) {
         res.status(500).send(err);
     }
-};
-
-exports.getArchiveTasks = async (req, res) => {
-    Task.find({ createdBy: req.profile._id })
-        .select("_id title text dueDate status label")
-        .find({status : 'Completed'})
-        .sort({ dueDate: -1 })
-        .then(Tasks => {
-            res.status(200).json(Tasks);
-        })
-        .catch(err => console.log(err));
 };
 
 
