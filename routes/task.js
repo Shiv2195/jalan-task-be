@@ -29,6 +29,13 @@ router.post(
     createTaskUpdateValidator
 );
 
+router.post(
+    "/api/task/read/:userId/:title",
+    requireSignin,
+    readTask,
+    createTaskUpdateValidator
+);
+
 
 router.get("/api/archive/:userId", getArchiveTasks);
 
