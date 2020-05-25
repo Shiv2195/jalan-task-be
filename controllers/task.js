@@ -66,7 +66,7 @@ exports.updateTask = async (req, res, next) => {
 
 exports.readTasks = (req, res) => {
     const title = req.title;
-    const res = await Task.find({ createdBy: req.profile._id, title: {title}})
+    const res = await Task.find({ createdBy: req.profile._id, title: { $regex: "/^" + {title} + ".+/" , $options: '<options>' }})
         .exec((err, tasks) => {
             if (err) {
                 return res.status(400).json({
@@ -76,6 +76,13 @@ exports.readTasks = (req, res) => {
             res.json(tasks);
         });
 };
+
+Task.find({ "name" : { $regex: /HELLO/, $options: 'i' } },
+    function (err, person) {
+        if (err) return handleError(err);
+        console.log('%s %s is a %s.', person.name.first, person.name.last, person.occupation);
+
+    });
 
 
 
