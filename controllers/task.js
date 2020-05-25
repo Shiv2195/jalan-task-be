@@ -59,6 +59,16 @@ exports.updateTask = async (req, res, next) => {
   }
 };
 
+exports.deleteTask = async (req, res, next) => {
+  try {
+    await Task.deleteOne({ _id: req.params.taskId });
+    res.status(204).json({ message: 'Task deleted Successfully!' });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
+};
+
 exports.userById = (req, res, next, id) => {
   User.findById(id).exec((err, user) => {
     if (err || !user) {
