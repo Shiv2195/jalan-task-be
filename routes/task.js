@@ -7,6 +7,7 @@ const {
   getArchiveTasks,
   userById,
   deleteTask,
+    readTasks,
 } = require('../controllers/task');
 const { requireSignin } = require('../controllers/auth');
 const { createTaskValidator } = require('../validator');
@@ -28,6 +29,13 @@ router.put(
   requireSignin,
   updateTask,
   createTaskUpdateValidator,
+);
+
+router.get(
+    "/api/task/search/:userId/:title",
+    requireSignin,
+    readTasks,
+    createTaskUpdateValidator
 );
 
 router.delete('/api/task/delete/:taskId', requireSignin, deleteTask);

@@ -80,3 +80,17 @@ exports.userById = (req, res, next, id) => {
     next();
   });
 };
+
+exports.readTasks =  async (req, res) => {
+  const title = req.params.title;
+  const result = await Task.find({ createdBy: req.profile._id, title: { $regex:  title  , $options: 'i' }})
+      .exec((err, tasks) => {
+        if (err) {
+          return res.status(400).json({
+            error: err,
+          });
+        }
+        console.log(tasks);
+        res.json(tasks);
+      });
+};
